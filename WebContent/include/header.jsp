@@ -16,7 +16,7 @@
           <li><a class="nav-link scrollto" href="/main/index.jsp">Home</a></li>
           <li><a class="nav-link scrollto" href="/main/about.jsp">About</a></li>
           <li><a class="nav-link scrollto" href="/main/notice?act=list&pg=1&key=&word=&">공지사항</a></li>
-          <li><a class="nav-link scrollto " href="#portfolio">거래가검색</a></li>
+          <li><a class="nav-link scrollto " href="/main/dong.jsp">거래가검색</a></li>
 <!-- *************************** 회원 화면 *********************************** -->
 <c:if test="${!empty userInfo}">
 		<li class="dropdown"><a href="/main/user?act=info"><span>마이페이지</span> <i class="bi bi-chevron-down"></i></a>
