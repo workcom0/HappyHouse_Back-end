@@ -12,9 +12,22 @@ public class AptDto {
 	String jibun;
 	String lat;
 	String lng;
+	String dealAmount;
+	int dealYear;
+	int dealMonth;
+	int dealDay;
+	String area;
 	
+	@Override
+	public String toString() {
+		return "AptDto [aptCode=" + aptCode + ", aptName=" + aptName + ", dongCode=" + dongCode + ", dongName="
+				+ dongName + ", buildYear=" + buildYear + ", jibun=" + jibun + ", lat=" + lat + ", lng=" + lng
+				+ ", dealAmount=" + dealAmount + ", dealYear=" + dealYear + ", dealMonth=" + dealMonth + ", dealDay="
+				+ dealDay + ", area=" + area + "]";
+	}
+
 	public AptDto(int aptCode, String aptName, String dongCode, String dongName, int buildYear, String jibun,
-			String lat, String lng) {
+			String lat, String lng, String dealAmount, int dealYear, int dealMonth, int dealDay, String area) {
 		super();
 		this.aptCode = aptCode;
 		this.aptName = aptName;
@@ -24,6 +37,11 @@ public class AptDto {
 		this.jibun = jibun;
 		this.lat = lat;
 		this.lng = lng;
+		this.dealAmount = dealAmount;
+		this.dealYear = dealYear;
+		this.dealMonth = dealMonth;
+		this.dealDay = dealDay;
+		this.area = area;
 	}
 	
 	public int getAptCode() {
@@ -74,4 +92,35 @@ public class AptDto {
 	public void setLng(String lng) {
 		this.lng = lng;
 	}
+	public String getDealAmount() {
+		return dealAmount;
+	}
+	public void setDealAmount(String dealAmount) {
+		this.dealAmount = dealAmount;
+	}
+	public int getDealYear() {
+		return dealYear;
+	}
+	public void setDealYear(int dealYear) {
+		this.dealYear = dealYear;
+	}
+	public int getDealMonth() {
+		return dealMonth;
+	}
+	public void setDealMonth(int dealMonth) {
+		this.dealMonth = dealMonth;
+	}
+	public int getDealDay() {
+		return dealDay;
+	}
+	public void setDealDay(int dealDay) {
+		this.dealDay = dealDay;
+	}
+	public String getArea() {
+		return area;
+	}
+	public void setArea(String area) {
+		this.area = area;
+	}
+	
 }

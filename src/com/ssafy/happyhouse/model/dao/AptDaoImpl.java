@@ -131,13 +131,13 @@ public class AptDaoImpl implements AptDao {
 	}
 
 	@Override
-	public List<AptDto> selectApt(String dong) {
+	public List<AptDto> selectAptByDong(String dong) {
 		List<AptDto> list = new ArrayList<>();
 
-		String sql = "select * \n";
-		sql += "from houseinfo \n";
-		sql += "where dongCode=? \n";
-		sql += "order by aptCode \n";
+		String sql = "select i.aptCode, i.aptName, i.dongCode, i.dongName, i.buildYear, i.jibun, i.lat, i.lng, d.dealAmount, d.dealYear, d.dealMonth, d.dealDay, d.area \n";
+		sql += "from houseinfo i, housedeal d \n";
+		sql += "where dongCode=? and i.aptCode=d.aptCode \n";
+		sql += "order by d.dealYear desc , dealMonth desc, dealDay desc \n";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -149,8 +149,9 @@ public class AptDaoImpl implements AptDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				AptDto dto = new AptDto(rs.getInt("aptCode"), rs.getString("aptName"), rs.getString("dongcode"), 
-											rs.getString("dongName"), rs.getInt("buildYear"), rs.getString("jibun"), rs.getString("lat"), rs.getString("lng"));
+				AptDto dto = new AptDto(rs.getInt("i.aptCode"), rs.getString("i.aptName"), rs.getString("i.dongcode"), 
+											rs.getString("i.dongName"), rs.getInt("i.buildYear"), rs.getString("i.jibun"), rs.getString("i.lat"), rs.getString("i.lng"),
+											rs.getString("d.dealAmount"), rs.getInt("d.dealYear"), rs.getInt("d.dealMonth"), rs.getInt("d.dealDay"),  rs.getString("d.area"));
 
 				list.add(dto);
 			}

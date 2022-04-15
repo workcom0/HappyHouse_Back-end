@@ -1,6 +1,7 @@
 var map, marker;
-$(document).ready(function() {
-					// 카카오 지도 설정.
+
+$(document).ready(function() {		
+		
 		var container = document.getElementById("map"); // 지도를 담을 dom 객체
 		var options = {
 			// 지도를 생성할 때 필요한 기본 옵션
@@ -70,6 +71,4 @@ $(document).ready(function() {
 			map.setCenter(locPosition);
 		}
 });
-
-
 

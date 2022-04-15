@@ -2,12 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <script type="text/javascript">
-let colorArr = ['table-primary','table-success','table-danger'];
-var locations;
+	var locations;
 
 	$(document).ready(function(){	
 		$.ajax({
-			url: "/main/apt",
+			url: "../../../main/apt",
 			type:"post",
 			dataType:'json',
 			data:{action:"sido"},
@@ -24,11 +23,11 @@ var locations;
 	
 	$(document).ready(function(){
 		$("#sido").change(function() {
-			$.get("/main/apt"
+			$.get("../../../main/apt"
 					,{action:"gugun", sido:$("#sido").val()}
 					,function(data, status){
 						$("#gugun").empty();
-						$("#gugun").append('<option value="0">선택</option>');
+						$("#gugun").append('<option value="">구군선택</option>');
 						$.each(data, function(index, vo) {
 							$("#gugun").append("<option value='"+vo.gugun_code+"'>"+vo.gugun_name+"</option>");
 						});//each
@@ -36,12 +35,13 @@ var locations;
 					, "json"
 			);//get
 		});//change
+		
 		$("#gugun").change(function() {
-			$.get("/main/apt"
+			$.get("../../../main/apt"
 					,{action:"dong", gugun:$("#gugun").val()}
 					,function(data, status){
 						$("#dong").empty();
-						$("#dong").append('<option value="0">선택</option>');
+						$("#dong").append('<option value="">동선택</option>');
 						$.each(data, function(index, vo) {
 							$("#dong").append("<option value='"+vo.dong_code+"'>"+vo.dong_name+"</option>");
 						});//each
@@ -49,31 +49,13 @@ var locations;
 					, "json"
 			);//get
 		});//change
-		$("#dong").change(function() {
-			$.get("/main/apt"
-					,{action:"apt", dong:$("#dong").val()}
-					,function(data, status){
-						$("#searchResult").empty();
-						$("#idx>tbody").empty();
-
-						$.each(data, function(index, vo) {
-							let str = "<tr class="+colorArr[index%3]+">"
-							+ "<td>" + vo.aptCode + "</td>"
-							+ "<td>" + vo.aptName + "</td>"
-							+ "<td>" + vo.dongName + "</td>"
-							+ "<td>" + vo.jibun + "</td>"
-							+ "<td id='lat_"+index+"'>" + vo.lat + "+</td><td id='lng_"+index+"'>" + vo.lng + "</td>"
-							+ "</tr>";
-							$("#idx>tbody").append(str);
-							$("#searchResult").append(vo.dong+" "+vo.AptName+" "+vo.jibun+"<br>");
-						});//each
-						geocode(data);
-					}//function
-					, "json"
-			);//get
+		
+		$("#dong").change(function() {	
+            $("#writeform").submit();           
 		});//change
-	});//ready	
 
+	});//ready	
+	
 	function geocode(jsonData) {
 		let idx = 0;
 		let tmpLat;
@@ -117,26 +99,30 @@ var locations;
 		}
 		console.log(jsonData[0].lat);
 	}
-	
+
 </script>
 
-<div>
+<div class="mb-5">
 	<div class="alert alert-primary ">
 		<strong id="tradeInfo">아파트 실거래가 조회</strong> 지역별 매매정보
 	</div>
-	<div align="left">
-		<form id="" class="text-left mb-3" method="post" action="">
-		<input type="hidden" name="action" value="search" /> 
-			<select class="" id="sido" name="sido">
+	<div align="center">
+		<form id="writeform" class="text-left mb-3" method="post" action="/main/apt">
+		<input type="hidden" name="action" value="aptByDong" /> 
+			<select class="" id="sido" name="sido" required="required" style="width:150px">
 				<option value="">시도선택</option>
 			</select> 
-			<select class="" id="gugun" name="gugun">
+			<select class="" id="gugun" name="gugun" required="required" style="width:150px">
 				<option value="">구군선택</option>
 			</select> 
-			<select class="" id="dong" name="dong">
+			<select class="" id="dong" name="dong" required="required" style="width:150px">
 				<option value="">동선택</option>
 			</select>
-	</form>
+			<span class="mx-5">
+				<input type="text" placeholder="아파트명으로 검색"/>
+				<input type="submit" value="검색"/>
+			</span>	
+		</form>
 	</div>
 </div>
 

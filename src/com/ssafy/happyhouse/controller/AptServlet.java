@@ -39,6 +39,7 @@ public class AptServlet extends HttpServlet {
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 		String path = "/index.jsp";
+		System.out.println(action);
 		
 		if(action.equals("sido")) {
 			selectSido(request, response);
@@ -46,35 +47,51 @@ public class AptServlet extends HttpServlet {
 			selectGugun(request, response);
 		}else if(action.equals("dong")) {
 			selectDong(request, response);
-		}else if(action.equals("apt")) {
-			selectApt(request, response);
+		}else if(action.equals("aptByDong")) {
+			selectAptByDong(request, response);
 		}
 	}
 
-	private void selectApt(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private void selectAptByDong(HttpServletRequest request, HttpServletResponse response){
 		response.setCharacterEncoding("UTF-8");
 		String dong = request.getParameter("dong");
-		PrintWriter out = response.getWriter();
 		List<AptDto> list = null;
 		JSONArray arr = new JSONArray();
+		System.out.println("d");
 		
-		list = aptService.selectApt(dong);		
-		for(AptDto dto : list) {
-			JSONObject obj = new JSONObject();
-			obj.put("aptCode", dto.getAptCode());
-			obj.put("aptName", dto.getAptName());
-			obj.put("dongCode", dto.getDongCode());
-			obj.put("dongName", dto.getDongName());
-			obj.put("buildYear", dto.getBuildYear());
-			obj.put("jibun", dto.getJibun());
-			obj.put("lat", dto.getLat());
-			obj.put("lng", dto.getLng());
-			arr.add(obj);
+		try {		
+			list = aptService.selectAptByDong(dong);
+			request.setAttribute("AptDto", list);
+			
+			for(AptDto dto : list) {
+				JSONObject obj = new JSONObject();
+				obj.put("aptCode", dto.getAptCode());
+				obj.put("aptName", dto.getAptName());
+				obj.put("dongCode", dto.getDongCode());
+				obj.put("dongName", dto.getDongName());
+				obj.put("buildYear", dto.getBuildYear());
+				obj.put("jibun", dto.getJibun());
+				obj.put("lat", dto.getLat());
+				obj.put("lng", dto.getLng());
+				obj.put("dealAmount", dto.getDealAmount());
+				obj.put("dealYear", dto.getDealYear());
+				obj.put("dealMonth", dto.getDealMonth());
+				obj.put("dealDay", dto.getDealDay());
+				
+				arr.add(obj);
+			}
+			
+			String jsonString = JSONValue.toJSONString(arr); 
+			response.setCharacterEncoding("UTF-8"); 
+			request.setAttribute("jsonData", jsonString);
+
+			request.getRequestDispatcher("./jsp/apt/apt.jsp").forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+//		
 		
-		String jsonString = JSONValue.toJSONString(arr); 
-		response.setCharacterEncoding("UTF-8"); 
-		response.getWriter().print(jsonString);
+		
 	}
 
 	private void selectDong(HttpServletRequest request, HttpServletResponse response) throws IOException {
