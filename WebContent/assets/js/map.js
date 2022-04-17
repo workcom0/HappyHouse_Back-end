@@ -1,12 +1,10 @@
 var map, marker;
 
 $(document).ready(function() {		
-		
 		var container = document.getElementById("map"); // 지도를 담을 dom 객체
 		var options = {
-			// 지도를 생성할 때 필요한 기본 옵션
 			center : new kakao.maps.LatLng(37.5012743, 127.039585), // 지도의 중심좌표																
-			level : 3, // 지도의 레벨(확대, 축소 정도)
+			level : 3,
 		};
 		
 		map = new kakao.maps.Map(container, options);
@@ -14,7 +12,7 @@ $(document).ready(function() {
 		// 마커가 표시될 위치입니다
 		var markerPosition = new kakao.maps.LatLng(37.5012743, 127.039585);
 		// 마커를 생성합니다
-		var marker = new kakao.maps.Marker({
+		marker = new kakao.maps.Marker({
 			position : markerPosition,
 			title : "키키키키",
 		});
@@ -28,16 +26,9 @@ $(document).ready(function() {
 				var lat = position.coords.latitude, // 위도
 				lon = position.coords.longitude; // 경도
 
-				var locPosition = new kakao.maps.LatLng(lat, lon), // 마커가
-																	// 표시될
-																	// 위치를
-																	// geolocation으로
-																	// 얻어온
-																	// 좌표로
-																	// 생성합니다
-				message = '<div style="padding:5px;">우리집!</div>'; // 인포윈도우에
-																	// 표시될
-																	// 내용입니다
+				var locPosition = new kakao.maps.LatLng(lat, lon), 
+
+				message = '<div style="padding:5px;">우리집!</div>'; 
 
 				// 마커와 인포윈도우를 표시합니다
 				displayMarker(locPosition, message);
@@ -70,5 +61,5 @@ $(document).ready(function() {
 			// 지도 중심좌표를 접속위치로 변경합니다
 			map.setCenter(locPosition);
 		}
-});
 
+});

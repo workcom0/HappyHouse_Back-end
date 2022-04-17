@@ -16,6 +16,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import com.ssafy.happyhouse.model.AptDto;
+import com.ssafy.happyhouse.model.AptSelectBoxDto;
 import com.ssafy.happyhouse.model.service.AptService;
 import com.ssafy.happyhouse.model.service.AptServiceImpl;
 
@@ -49,19 +50,39 @@ public class AptServlet extends HttpServlet {
 			selectDong(request, response);
 		}else if(action.equals("aptByDong")) {
 			selectAptByDong(request, response);
+		}else if(action.equals("aptByName")) {
+			selectAptByName(request, response);
 		}
 	}
 
+	//------------------------------------------------------------ 아파트명으로 검색했을때, 아파트 리스트 출력
+	private void selectAptByName(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+
+	//------------------------------------------------------------ 동 선택했을 때, 아파트 리스트 출력
 	private void selectAptByDong(HttpServletRequest request, HttpServletResponse response){
 		response.setCharacterEncoding("UTF-8");
+		String sido = request.getParameter("sido");
+		String gugun = request.getParameter("gugun");
 		String dong = request.getParameter("dong");
+		
+		String sido_name = request.getParameter("sido_name");
+		String gugun_name = request.getParameter("gugun_name");
+		String dong_name = request.getParameter("dong_name");
+		
+		AptSelectBoxDto selectDto = new AptSelectBoxDto(sido, sido_name, gugun, gugun_name, dong, dong_name);
+		
 		List<AptDto> list = null;
 		JSONArray arr = new JSONArray();
-		System.out.println("d");
+		
 		
 		try {		
 			list = aptService.selectAptByDong(dong);
 			request.setAttribute("AptDto", list);
+			request.setAttribute("selectDto", selectDto);
 			
 			for(AptDto dto : list) {
 				JSONObject obj = new JSONObject();
@@ -88,12 +109,11 @@ public class AptServlet extends HttpServlet {
 			request.getRequestDispatcher("./jsp/apt/apt.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-//		
-		
-		
+		}		
 	}
 
+	
+	//------------------------------------------------------------ 동 선택
 	private void selectDong(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setCharacterEncoding("UTF-8");
 		String gugun = request.getParameter("gugun");
@@ -115,6 +135,8 @@ public class AptServlet extends HttpServlet {
 		response.getWriter().print(jsonString);
 	}
 
+	
+	//------------------------------------------------------------ 구군 선택
 	private void selectGugun(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setCharacterEncoding("UTF-8");
 		String sido = request.getParameter("sido");
@@ -135,6 +157,9 @@ public class AptServlet extends HttpServlet {
 		response.getWriter().print(jsonString);
 	}
 
+	
+	
+	//------------------------------------------------------------ 시도 선택
 	private void selectSido(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
@@ -154,7 +179,5 @@ public class AptServlet extends HttpServlet {
 		response.getWriter().print(jsonString);
 		
 	}
-	
-	
 
 }

@@ -4,21 +4,21 @@
 <script type="text/javascript">
 	var locations;
 
-	$(document).ready(function(){	
-		$.ajax({
-			url: "../../../main/apt",
-			type:"post",
-			dataType:'json',
-			data:{action:"sido"},
-			contentType:'application/x-www-form-urlencoded; charset=UTF-8',
-			success:function(data){
-				$.each(data, function(index, vo) {
-					$("#sido").append("<option value='"+vo.sido_code+"'>"+vo.sido_name+"</option>");
-				});//each			
-			}, error:function(){
-				alert("에러입니다.");
-			}
-		});
+	$(document).ready(function(){
+			$.ajax({
+				url: "../../../main/apt",
+				type:"post",
+				dataType:'json',
+				data:{action:"sido"},
+				contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+				success:function(data){
+					$.each(data, function(index, vo) {
+						$("#sido").append("<option value='"+vo.sido_code+"'>"+vo.sido_name+"</option>");
+					});//each			
+				}, error:function(){
+					alert("에러입니다.");
+				}
+			});	
 	});//ready
 	
 	$(document).ready(function(){
@@ -50,56 +50,15 @@
 			);//get
 		});//change
 		
-		$("#dong").change(function() {	
-            $("#writeform").submit();           
+		$("#dong").change(function() {
+            $("#sido_name").attr("value",$("#sido option:checked").text());  
+            $("#gugun_name").attr("value",$("#gugun option:checked").text());
+            $("#dong_name").attr("value",$("#dong option:checked").text()).submit();
+            
+            $("#writeform").submit();
 		});//change
-
+		
 	});//ready	
-	
-	function geocode(jsonData) {
-		let idx = 0;
-		let tmpLat;
-		let tmpLng;
-		
-		var mapContainer = document.getElementById('map'), // 지도를 표시할 div  	   
-		mapOption = { 
-	        center: new kakao.maps.LatLng(jsonData[0].lat, jsonData[0].lng), // 지도의 중심좌표
-	        level: 3 // 지도의 확대 레벨
-	    };
-		
-		var map = new kakao.maps.Map(mapContainer, mapOption);
-		
-		var positions = [];
-		
-		for(var i=0; i<jsonData.length; i++){
-			positions[i] = {
-				title:jsonData[i].aptName,
-				latlng: new kakao.maps.LatLng(jsonData[i].lat, jsonData[i].lng)
-			};
-		}
-		
-		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
-		
-		for (var i = 0; i < positions.length; i ++) {
-		    
-		    // 마커 이미지의 이미지 크기 입니다
-		    var imageSize = new kakao.maps.Size(24, 35); 
-		    
-		    // 마커 이미지를 생성합니다    
-		    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
-		    
-		    // 마커를 생성합니다
-		    var marker = new kakao.maps.Marker({
-		        map: map, // 마커를 표시할 지도
-		        position: positions[i].latlng, // 마커를 표시할 위치
-		        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-		        image : markerImage // 마커 이미지 
-		    });
-		    marker.setMap(map);
-		}
-		console.log(jsonData[0].lat);
-	}
-
 </script>
 
 <div class="mb-5">
@@ -108,18 +67,43 @@
 	</div>
 	<div align="center">
 		<form id="writeform" class="text-left mb-3" method="post" action="/main/apt">
-		<input type="hidden" name="action" value="aptByDong" /> 
+		<input type="hidden" name="action" value="aptByDong" />
+		<input id="sido_name" type="hidden" name="sido_name" value=""/>
+		<input id="gugun_name" type="hidden" name="gugun_name" value=""/>
+		<input id="dong_name" type="hidden" name="dong_name" value=""/>
 			<select class="" id="sido" name="sido" required="required" style="width:150px">
-				<option value="">시도선택</option>
+				<c:if test="${!empty selectDto}">
+					<option value="${selectDto.sido_code}">${selectDto.sido_name }</option>
+				</c:if>
+				<c:if test="${empty selectDto}">
+					<option value="">시도선택</option>
+				</c:if>				
 			</select> 
 			<select class="" id="gugun" name="gugun" required="required" style="width:150px">
-				<option value="">구군선택</option>
+				<c:if test="${!empty selectDto}">
+					<option value="">${selectDto.gugun_name }</option>
+				</c:if>
+				<c:if test="${empty selectDto}">
+					<option value="">구군선택</option>
+				</c:if>						
 			</select> 
 			<select class="" id="dong" name="dong" required="required" style="width:150px">
-				<option value="">동선택</option>
+				<c:if test="${!empty selectDto}">
+					<option value="">${selectDto.dong_name }</option>
+				</c:if>
+				<c:if test="${empty selectDto}">
+					<option value="">동선택</option>
+				</c:if>			
 			</select>
+		</form>
+		<form id="writeform" class="text-left mb-3" method="post" action="/main/apt">
+		<input type="hidden" name="action" value="aptByName" />
+		<input id="sido_name" type="hidden" name="sido_name" value="${selectDto.sido_name }"/>
+		<input id="gugun_name" type="hidden" name="gugun_name" value="${selectDto.gugun_name }"/>
+		<input id="dong_name" type="hidden" name="dong_name" value="${selectDto.dong_name }"/>
+		<input id="dong" name="dong" type="hidden" value="${selectDto.dong_code}"/>
 			<span class="mx-5">
-				<input type="text" placeholder="아파트명으로 검색"/>
+				<input id="aptName" name="aptName" type="text" placeholder="아파트명으로 검색"/>
 				<input type="submit" value="검색"/>
 			</span>	
 		</form>

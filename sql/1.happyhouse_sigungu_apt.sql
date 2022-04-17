@@ -162,6 +162,8 @@ AUTO_INCREMENT = 68865
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
+select * from housedeal where aptCode=1098;
+
 -- -----------------------------------------------------
 -- Table `happyhouse`.`house`
 -- -----------------------------------------------------
@@ -182,3 +184,6 @@ CREATE TABLE `house` (
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+select * 
+from houseinfo;
