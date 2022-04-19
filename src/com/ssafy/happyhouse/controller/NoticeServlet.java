@@ -37,12 +37,12 @@ public class NoticeServlet extends HttpServlet {
 		String path = "/index.jsp";
 		
 		if("mvregister".equals(act)) {
-			response.sendRedirect(request.getContextPath() + "/guestbook/write.jsp");
+			response.sendRedirect(request.getContextPath() + "/jsp/notice/write.jsp");
 			
 			
 		} else if ("register".equals(act)) {
-			path = registerArticle(request, response);
-			request.getRequestDispatcher(path).forward(request, response);
+			registerArticle(request, response);
+			//request.getRequestDispatcher(path).forward(request, response);
 			
 			
 		} else if ("list".equals(act)) {
@@ -118,7 +118,7 @@ public class NoticeServlet extends HttpServlet {
 			List<NoticeDto> list = noticeService.listNotice(pg, key, word);
 			PageNavigation navigation = noticeService.makePageNavigation(pg, key, word);
 				
-			request.setAttribute("articles", list);
+			request.setAttribute("noticeList", list);
 			request.setAttribute("navi", navigation);
 			request.setAttribute("key", key);
 			request.setAttribute("word", word);
@@ -131,7 +131,7 @@ public class NoticeServlet extends HttpServlet {
 		}		
 	}
 
-	private String registerArticle(HttpServletRequest request, HttpServletResponse response) {
+	private void registerArticle(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		MemberDto memberDto = (MemberDto) session.getAttribute("userInfo");
 			
@@ -141,11 +141,19 @@ public class NoticeServlet extends HttpServlet {
 		noticeDto.setContent(request.getParameter("content"));
 		try {
 			noticeService.registerNotice(noticeDto);
-			return "/guestbook/writesuccess.jsp";
+			response.sendRedirect("/main/notice?act=list&pg=1&key=&word=&");
+			/*request.setAttribute("articleno", noticeDto.getArticleNo());
+			getArticle(request, response);*/
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.setAttribute("msg", "글 작성중 에러가 발생했습니다.");
-			return "/error/error.jsp";
+			try {
+				request.getRequestDispatcher("/error/error.jsp").forward(request, response);
+			} catch (ServletException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			} ;
 		}	
 	}
 }

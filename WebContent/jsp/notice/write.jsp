@@ -32,8 +32,8 @@
 	<div class="container" >
 		<div class="col-lg-6" align="center" style="margin:auto">
 			<h3>공지사항 등록</h3>
-			<form id="" method="post" action="">
-				<input type="hidden" name="act" id="act" value="write">
+			<form method="post" action="/main/notice">
+				<input type="hidden" name="act" id="act" value="register">
 				<div class="form-group mb-3 mt-3" align="left">
 					<label for="subject"></label> 
 					<input type="text" class="form-control" id="subject" name="subject" placeholder="제목을 입력해 주세요." required="required">
@@ -44,7 +44,7 @@
 				</div>
 				<div>
 					<button type="reset" class="btn btn-secondary  m-3">취소</button>
-					<button type="button" class="btn btn-warning" onclick="javascript:writeNotice();">글작성</button>
+					<button type="submit" class="btn btn-warning">글작성</button>
 				</div>		
 			</form>
 		</div>

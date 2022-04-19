@@ -4,11 +4,26 @@
 <title>공지사항</title>
 <c:import url="/include/header.jsp"></c:import>
 
-<style>
-/* 게시판 리스트 목록 */
+<script type="text/javascript">
 
-/* //게시판 리스트 목록 */
-</style>
+        $(document).ready(function () {
+        	$("#mvRegisterBtn").click(function () {
+                location.href = "/main/notice?act=mvregister";
+            });
+        	
+        	$(".page-item").click(function () {
+               	$("#pg").val($(this).attr("data-pg"));
+               	$("#pageForm").attr("action", "/main/notice").submit();
+            });
+        });
+        
+</script>
+<form name="pageForm" id="pageForm">
+    <input type="hidden" name="act" id="act" value="list" />
+    <input type="hidden" name="pg" id="pg" value="" />
+    <input type="hidden" name="key" id="key" value="${key}" />
+    <input type="hidden" name="word" id="word" value="${word}" />
+</form>
 
 <!-- #main -->
 <main id="main"> <!-- ======= Breadcrumbs ======= -->
@@ -36,22 +51,24 @@
 				<div class="card-body">
 					
 					<div align="right">
-						<form method="post" action="">
-							<select class="form-control mx-1" name="searchType" style="width:100px; display:inline;">
+						<form method="post" action="/main/notice">
+							<input type="hidden" name="act" value="list">
+		            		<input type="hidden" name="pg" value="1">
+							<select class="form-control mx-1" name="key" style="width:100px; display:inline;">
 								<option value="all">전체</option>
 								<option value="subject">제목</option>
 								<option value="content">내용</option>
 							</select> 
-							<input type="text" name="searchWord" class="mx-1"/>
+							<input name="word" type="text" name="searchWord" class="mx-1"/>
 							<button class="btn btn-secondary btn-xs">검색</button>
 						</form>
 					</div>
 
 
-					<div class=row>
-						<c:if test="${not empty loginMember}">
-							<c:if test='${loginMember.name eq "관리자"}'>
-								<button class="btn btn-secondary btn-xs" onclick="location.href=">글쓰기</button>
+					<div class="row" style="width: 100px;">
+						<c:if test="${not empty userInfo}">
+							<c:if test='${userInfo.name eq "관리자"}'>
+								<button id="mvRegisterBtn" class="btn btn-secondary btn-xs">글쓰기</button>
 							</c:if>
 						</c:if>
 					</div>
@@ -66,16 +83,16 @@
 						</tr>
 						<c:forEach var="notice" items="${noticeList}">
 							<tr>
-								<td>${notice.noticeno}</td>
+								<td>${notice.articleNo}</td>
 								<td>${notice.subject}</td>
-								<td><a href="<c:url value="noticedetail?no=${notice.noticeno}"/>">조회</a></td>
+								<td>${notice.userId}</td>
+								<td>${notice.regTime}</td>
 							</tr>
 						</c:forEach>
-					</table>
-					
+					</table>					
 				</div>
 			</div>
-
+			<div style="width: 50%; margin:auto">${navi.navigator}</div>		
 		</div>
 	</div>
 

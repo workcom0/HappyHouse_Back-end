@@ -17,34 +17,34 @@
           <li><a class="nav-link scrollto" href="/main/jsp/about/about.jsp">About</a></li>
           <li><a class="nav-link scrollto" href="/main/notice?act=list&pg=1&key=&word=&">공지사항</a></li>
           <li><a class="nav-link scrollto " href="/main/jsp/apt/apt.jsp">거래가검색</a></li>
-<!-- *************************** 회원 화면 *********************************** -->
-<c:if test="${!empty userInfo}">
-		<li class="dropdown"><a href="/main/user?act=info"><span>마이페이지</span> <i class="bi bi-chevron-down"></i></a>
-            <ul>
-              <li><a href="/main/user?act=info">나의정보관리</a></li>
-              <li><a href="#">관심지역설정</a></li>
-              <li><a href="#">회원탈퇴</a></li>
-            </ul>
-          </li>
-</c:if>          
-<!-- ********************************************************************* -->
+		<!-- *************************** 회원 화면 *********************************** -->
+		<c:if test="${!empty userInfo}">
+			<li class="dropdown"><a href="/main/user?act=info"><span>마이페이지</span> <i class="bi bi-chevron-down"></i></a>
+	            <ul>
+	              <li><a href="/main/user?act=info">나의정보관리</a></li>
+	              <li><a href="#">관심지역설정</a></li>
+	              <li><a href="#">회원탈퇴</a></li>
+	            </ul>
+	          </li>
+		</c:if>          
+		<!-- ********************************************************************* -->
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav>
-<!-- .navbar -->
+	<!-- .navbar -->
 
 
-<!-- *************************** 비회원 화면 *********************************** -->
-<c:if test="${empty userInfo}">
-      <a href="/main/jsp/user/login.jsp" class="get-started-btn scrollto">로그인</a>
-</c:if>
-<!-- *********************************************************************** -->
-
-<!-- *************************** 회원 화면 *********************************** -->
-<c:if test="${!empty userInfo}">
-      <a href="/main/user?act=logout" class="get-started-btn scrollto">로그아웃</a>
-</c:if>
-<!-- ********************************************************************* -->
+	<!-- *************************** 비회원 화면 *********************************** -->
+	<c:if test="${empty userInfo}">
+	      <a href="/main/jsp/user/login.jsp" class="get-started-btn scrollto">로그인</a>
+	</c:if>
+	<!-- *********************************************************************** -->
+	
+	<!-- *************************** 회원 화면 *********************************** -->
+	<c:if test="${!empty userInfo}">
+	      <a href="/main/user?act=logout" class="get-started-btn scrollto">로그아웃</a>
+	</c:if>
+	<!-- ********************************************************************* -->
     </div>
   </header>
   

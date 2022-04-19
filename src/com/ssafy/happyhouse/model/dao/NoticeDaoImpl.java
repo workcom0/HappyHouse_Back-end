@@ -62,8 +62,8 @@ public class NoticeDaoImpl implements NoticeDao{
 				listNotice.append("where \n");
 				if(key.equals("subject")) {
 					listNotice.append(" g.subject like concat('%', ?, '%') \n");
-				} else {
-					listNotice.append(" g." + key + " = ? \n");
+				} else if(key.equals("content")){
+					listNotice.append(" g.content like concat('%', ?, '%') \n");
 				}
 			}
 			listNotice.append("order by g.articleno desc limit ?, ? \n");
