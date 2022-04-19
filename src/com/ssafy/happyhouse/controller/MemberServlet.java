@@ -167,7 +167,6 @@ public class MemberServlet extends HttpServlet {
 			memberDto = memberService.login(id, pw);
 			if(memberDto != null) { // 로그인 성공
 					session.setAttribute("userInfo", memberDto);
-					
 					System.out.println("로그인완료");
 					
 					response.setContentType("text/html; charset=utf-8");

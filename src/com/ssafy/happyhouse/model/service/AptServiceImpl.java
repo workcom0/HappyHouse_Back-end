@@ -38,4 +38,9 @@ public class AptServiceImpl implements AptService {
 		return aptdao.selectAptByDong(dong);
 	}
 
+	@Override
+	public List<AptDto> selectAptByName(String dongcode, String aptName) {
+		return aptdao.selectAptByName(dongcode, aptName);
+	}
+
 }

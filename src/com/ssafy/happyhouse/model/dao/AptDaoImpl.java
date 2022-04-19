@@ -163,4 +163,39 @@ public class AptDaoImpl implements AptDao {
 		return list;
 	}
 
+	@Override
+	public List<AptDto> selectAptByName(String dongcode, String aptName) {
+		List<AptDto> list = new ArrayList<>();
+		String tmp = "%" + aptName + "%";
+		
+		String sql = "select i.aptCode, i.aptName, i.dongCode, i.dongName, i.buildYear, i.jibun, i.lat, i.lng, d.dealAmount, d.dealYear, d.dealMonth, d.dealDay, d.area \n";
+		sql += "from houseinfo i, housedeal d \n";
+		sql += "where i.dongcode=? and i.aptName like ? and d.aptCode=i.aptCode \n";
+		sql += "order by d.dealYear desc , d.dealMonth desc, d.dealDay desc \n";
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = dbUtil.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dongcode);
+			pstmt.setString(2, tmp);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				AptDto dto = new AptDto(rs.getInt("i.aptCode"), rs.getString("i.aptName"), rs.getString("i.dongcode"), 
+											rs.getString("i.dongName"), rs.getInt("i.buildYear"), rs.getString("i.jibun"), rs.getString("i.lat"), rs.getString("i.lng"),
+											rs.getString("d.dealAmount"), rs.getInt("d.dealYear"), rs.getInt("d.dealMonth"), rs.getInt("d.dealDay"),  rs.getString("d.area"));
+
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbUtil.close(rs, pstmt, conn);
+		}
+		return list;
+	}
+
 }

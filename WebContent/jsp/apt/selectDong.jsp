@@ -73,7 +73,7 @@
 		<input id="dong_name" type="hidden" name="dong_name" value=""/>
 			<select class="" id="sido" name="sido" required="required" style="width:150px">
 				<c:if test="${!empty selectDto}">
-					<option value="${selectDto.sido_code}">${selectDto.sido_name }</option>
+					<option value="">${selectDto.sido_name }</option>
 				</c:if>
 				<c:if test="${empty selectDto}">
 					<option value="">시도선택</option>
@@ -97,15 +97,15 @@
 			</select>
 		</form>
 		<form id="writeform" class="text-left mb-3" method="post" action="/main/apt">
-		<input type="hidden" name="action" value="aptByName" />
-		<input id="sido_name" type="hidden" name="sido_name" value="${selectDto.sido_name }"/>
-		<input id="gugun_name" type="hidden" name="gugun_name" value="${selectDto.gugun_name }"/>
-		<input id="dong_name" type="hidden" name="dong_name" value="${selectDto.dong_name }"/>
-		<input id="dong" name="dong" type="hidden" value="${selectDto.dong_code}"/>
-			<span class="mx-5">
-				<input id="aptName" name="aptName" type="text" placeholder="아파트명으로 검색"/>
-				<input type="submit" value="검색"/>
-			</span>	
+			<input type="hidden" name="action" value="aptByName" />
+			<input id="sido_name" type="hidden" name="sido_name" value="${selectDto.sido_name }"/>
+			<input id="gugun_name" type="hidden" name="gugun_name" value="${selectDto.gugun_name }"/>
+			<input id="dong_name" type="hidden" name="dong_name" value="${selectDto.dong_name }"/>
+			<input id="dong_code" name="dong_code" type="hidden" value="${selectDto.dong_code}"/>
+				<span class="mx-5">
+					<input id="aptName" name="aptName" type="text" placeholder="아파트명으로 검색"/>
+					<input type="submit" value="검색"/>
+				</span>	
 		</form>
 	</div>
 </div>

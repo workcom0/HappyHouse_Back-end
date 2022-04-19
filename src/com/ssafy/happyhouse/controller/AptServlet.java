@@ -57,8 +57,51 @@ public class AptServlet extends HttpServlet {
 
 	//------------------------------------------------------------ 아파트명으로 검색했을때, 아파트 리스트 출력
 	private void selectAptByName(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
+		response.setCharacterEncoding("UTF-8");
+		String sido_name = request.getParameter("sido_name");
+		String gugun_name = request.getParameter("gugun_name");
+		String dong_name = request.getParameter("dong_name");
 		
+		String dongcode = request.getParameter("dong_code");
+		String aptName = request.getParameter("aptName");
+		
+		AptSelectBoxDto selectDto = new AptSelectBoxDto("null", sido_name, "null", gugun_name, dongcode, dong_name);
+		
+		List<AptDto> list = null;
+		JSONArray arr = new JSONArray();
+		
+		
+		try {		
+			list = aptService.selectAptByName(dongcode, aptName);
+			request.setAttribute("AptDto", list);
+			request.setAttribute("selectDto", selectDto);
+			
+			for(AptDto dto : list) {
+				JSONObject obj = new JSONObject();
+				obj.put("aptCode", dto.getAptCode());
+				obj.put("aptName", dto.getAptName());
+				obj.put("dongCode", dto.getDongCode());
+				obj.put("dongName", dto.getDongName());
+				obj.put("buildYear", dto.getBuildYear());
+				obj.put("jibun", dto.getJibun());
+				obj.put("lat", dto.getLat());
+				obj.put("lng", dto.getLng());
+				obj.put("dealAmount", dto.getDealAmount());
+				obj.put("dealYear", dto.getDealYear());
+				obj.put("dealMonth", dto.getDealMonth());
+				obj.put("dealDay", dto.getDealDay());
+				
+				arr.add(obj);
+			}
+			
+			String jsonString = JSONValue.toJSONString(arr); 
+			response.setCharacterEncoding("UTF-8"); 
+			request.setAttribute("jsonData", jsonString);
+
+			request.getRequestDispatcher("./jsp/apt/apt.jsp").forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
 	}
 	
 
